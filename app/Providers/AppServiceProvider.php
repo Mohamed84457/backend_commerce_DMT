@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Laravel\Passport\Passport;
+use Illuminate\Support\Facades\File;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -12,11 +13,20 @@ class AppServiceProvider extends ServiceProvider
         //
     }
 
-    public function boot(): void
-    {
-        // If you want, set token expiry times here:
-        // Passport::tokensExpireIn(now()->addDays(15));
-        // Passport::refreshTokensExpireIn(now()->addDays(30));
-        // Passport::personalAccessTokensExpireIn(now()->addMonths(6));
+   public function boot()
+{
+    $keyPath = storage_path('oauth-private.key');
+
+    if (!File::exists($keyPath) && env('OAUTH_PRIVATE_KEY')) {
+        File::put($keyPath, env('OAUTH_PRIVATE_KEY'));
+        chmod($keyPath, 0600);
     }
+
+    $keyPath = storage_path('oauth-public.key');
+
+if (!File::exists($keyPath) && env('OAUTH_PUBLIC_KEY')) {
+    File::put($keyPath, env('OAUTH_PUBLIC_KEY'));
+    chmod($keyPath, 0644);
+}
+}
 }
