@@ -97,3 +97,10 @@ Route::middleware('auth:api')->group(function () {
     // Auth
     Route::get('/logout', [AuthController::class, 'logout']);
 });
+
+
+
+// routes/api.php
+Route::options('/{any}', function () {
+    return response()->json([], 200);
+})->where('any', '.*');
