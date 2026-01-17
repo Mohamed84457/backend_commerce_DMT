@@ -104,3 +104,6 @@ Route::middleware('auth:api')->group(function () {
 Route::options('/{any}', function () {
     return response()->json([], 200);
 })->where('any', '.*');
+
+
+
