@@ -32,6 +32,7 @@ Route::controller(AuthController::class)->group(function () {
 });
 
 Route::get('/categories', [CategoryController::class, 'index']);
+Route::get('/allcategories', [CategoryController::class, 'showallcategories']);
 Route::get('/category/{id}', [CategoryController::class, 'show']);
 Route::get('/products/category/{id}', [ProductController::class, 'productsByCategory']);
 

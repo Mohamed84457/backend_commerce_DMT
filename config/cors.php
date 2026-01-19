@@ -3,7 +3,7 @@
 return [
     'paths' => ['api/*'],
     'allowed_methods' => ['*'],
-    'allowed_origins' => ['https://dmtecommerce.vercel.app'], // your frontend URL
+    'allowed_origins' => ['https://dmtecommerce.vercel.app','http://localhost:3000'], // your frontend URL
     'allowed_origins_patterns' => [],
     'allowed_headers' => ['*'],
     'exposed_headers' => [],

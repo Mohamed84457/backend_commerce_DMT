@@ -31,6 +31,17 @@ public function index(Request $request)
         'total' => $categories->total(),
     ]);
 }
+// display all categories 
+public function showallcategories()
+{
+    $categories = Category::all();
+
+    return response()->json([
+        'data' => $categories,
+        'total' => $categories->count(),
+    ]);
+}
+
 
     /**
      * Show the form for creating a new resource.
