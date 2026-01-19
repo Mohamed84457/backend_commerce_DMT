@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Cache;
+use App\Models\Category;
+
 
 class ProductController extends Controller
 {
@@ -233,20 +235,45 @@ public function productsearch(Request $request)
 // test
 
 
-// get products in specific category 
+// Get products in a specific category
 public function productsByCategory(Request $request, $id)
 {
-    $perPage = $request->input('per_page', 12); // products per page
-    $page = $request->input('page', 1); // current page
+    $perPage = $request->input('per_page', 12);
 
-    $products = Product::with('Images')
+    $products = Product::with('images')
         ->where('status', 'published')
         ->where('category', $id)
-        ->orderBy('id', 'desc') // newest products first
-        ->paginate($perPage, ['*'], 'page', $page);
+        ->latest() // same as orderBy('created_at', 'desc')
+        ->paginate($perPage);
 
     return response()->json($products);
 }
+
+/* =======================
+       CATEGORY + PRODUCTS 🔥
+    ======================= */
+    public function productsByCategoryWithCategoryData(Request $request, $id)
+    {
+        $perPage = $request->input('per_page', 12);
+
+        $category = Category::withCount('products')->find($id);
+
+        if (!$category) {
+            return response()->json(['message' => 'Category not found'], 404);
+        }
+
+        $products = Product::with('images')
+            ->where('status', 'published')
+            ->where('category', $id)
+            ->latest()
+            ->paginate($perPage);
+
+        return response()->json([
+            'category' => $category,
+            'products' => $products
+        ]);
+    }
+
 
 
 }

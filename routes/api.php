@@ -35,6 +35,7 @@ Route::get('/categories', [CategoryController::class, 'index']);
 Route::get('/allcategories', [CategoryController::class, 'showallcategories']);
 Route::get('/category/{id}', [CategoryController::class, 'show']);
 Route::get('/products/category/{id}', [ProductController::class, 'productsByCategory']);
+Route::get('/categories/{id}/products', [ProductController::class, 'productsByCategoryWithCategoryData']);
 
 Route::get('/products', [ProductController::class, 'index']);
 Route::get('/product/{id}', [ProductController::class, 'show']);
